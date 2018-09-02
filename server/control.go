@@ -332,7 +332,7 @@ func (ctl *Control) manager() {
 					ctl.conn.Warn("new proxy [%s] error: %v", m.ProxyName, err)
 				} else {
 					resp.RemoteAddr = remoteAddr
-					ctl.conn.Info("new proxy [%s] success", m.ProxyName)
+					ctl.conn.Info("new proxy [%s] success, remote addr [%s]", m.ProxyName, resp.RemoteAddr)
 					StatsNewProxy(m.ProxyName, m.ProxyType)
 				}
 				ctl.sendCh <- resp

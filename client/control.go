@@ -166,7 +166,7 @@ func (ctl *Control) HandleNewProxyResp(inMsg *msg.NewProxyResp) {
 	if err != nil {
 		ctl.Warn("[%s] start error: %v", inMsg.ProxyName, err)
 	} else {
-		ctl.Info("[%s] start proxy success", inMsg.ProxyName)
+		ctl.Info("[%s] start proxy success, udp port[%s]", inMsg.ProxyName, inMsg.RemoteAddr)
 	}
 }
 

@@ -57,6 +57,7 @@ var (
 	localIp           string
 	localPort         int
 	remotePort        int
+	hostPID           int
 	useEncryption     bool
 	useCompression    bool
 	customDomains     string
@@ -204,7 +205,7 @@ func startService(pxyCfgs map[string]config.ProxyConf, visitorCfgs map[string]co
 			},
 		}
 	}
-	svr := client.NewService(pxyCfgs, visitorCfgs)
+	svr := client.NewService(pxyCfgs, visitorCfgs, hostPID)
 
 	// Capture the exit signal if we use kcp.
 	if g.GlbClientCfg.Protocol == "kcp" {

@@ -23,13 +23,15 @@ import (
 type Service struct {
 	// manager control connection with server
 	ctl *Control
+	hostPID int
 
 	closedCh chan int
 }
 
-func NewService(pxyCfgs map[string]config.ProxyConf, visitorCfgs map[string]config.ProxyConf) (svr *Service) {
+func NewService(pxyCfgs map[string]config.ProxyConf, visitorCfgs map[string]config.ProxyConf, hostPID int) (svr *Service) {
 	svr = &Service{
 		closedCh: make(chan int),
+		hostPID: hostPID,
 	}
 	ctl := NewControl(svr, pxyCfgs, visitorCfgs)
 	svr.ctl = ctl
@@ -49,7 +51,9 @@ func (svr *Service) Run() error {
 		}
 		log.Info("admin server listen on %s:%d", g.GlbClientCfg.AdminAddr, g.GlbClientCfg.AdminPort)
 	}
-
+	if svr.hostPID != 0 {
+		go svr.monitor()
+	}
 	<-svr.closedCh
 	return nil
 }
