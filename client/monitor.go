@@ -23,16 +23,16 @@ func (svr *Service) monitor() {
 func findProcess(pid int) bool {
 	pro, err := os.FindProcess(pid)
 	if err != nil {
-		fmt.Printf("error: %v", err)
+		fmt.Printf("find process error: %v", err)
 		return false
 	}
 	if pro != nil {
-		fmt.Printf("find pid success: %d\n", pro.Pid)
+		//fmt.Printf("find pid success: %d\n", pro.Pid)
 		err :=pro.Signal(syscall.Signal(0))
 		if (err != nil) {
-			fmt.Printf("error: %v", err)
+			fmt.Printf("ping process error: %v", err)
 		}
-		fmt.Printf("ping pid success: %d\n", pro.Pid)
+		//fmt.Printf("ping pid success: %d\n", pro.Pid)
 		return true;
 	}
 	return false
