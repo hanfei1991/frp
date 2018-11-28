@@ -4,6 +4,7 @@ import (
 	"os"
 	"time"
 	"fmt"
+	"syscall"
 )
 
 func (svr *Service) monitor() {
@@ -22,15 +23,17 @@ func (svr *Service) monitor() {
 func findProcess(pid int) bool {
 	pro, err := os.FindProcess(pid)
 	if err != nil {
+		fmt.Printf("error: %v", err)
 		return false
 	}
 	if pro != nil {
 		fmt.Printf("find pid success: %d\n", pro.Pid)
-		state, err := pro.Wait();
-		if err != nil {
-			return false;
+		err :=pro.Signal(syscall.Signal(0))
+		if (err != nil) {
+			fmt.Printf("error: %v", err)
 		}
-		return !state.Exited()
+		fmt.Printf("ping pid success: %d\n", pro.Pid)
+		return true;
 	}
 	return false
 }
