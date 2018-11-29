@@ -1,17 +1,17 @@
 package client
 
 import (
-	"os"
-	"time"
 	"fmt"
+	"os"
 	"syscall"
+	"time"
 )
 
 func (svr *Service) monitor() {
 	for {
 		ticker := time.NewTicker(time.Second)
 		select {
-			case <- ticker.C:
+		case <-ticker.C:
 		}
 		if !findProcess(svr.hostPID) {
 			close(svr.closedCh)
@@ -28,13 +28,13 @@ func findProcess(pid int) bool {
 	}
 	if pro != nil {
 		//fmt.Printf("find pid success: %d\n", pro.Pid)
-		err :=pro.Signal(syscall.Signal(0))
-		if (err != nil) {
+		err := pro.Signal(syscall.Signal(0))
+		if err != nil {
 			fmt.Printf("ping process error: %v", err)
+			return false
 		}
 		//fmt.Printf("ping pid success: %d\n", pro.Pid)
-		return true;
+		return true
 	}
 	return false
 }
-

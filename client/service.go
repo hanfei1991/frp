@@ -22,7 +22,7 @@ import (
 
 type Service struct {
 	// manager control connection with server
-	ctl *Control
+	ctl     *Control
 	hostPID int
 
 	closedCh chan int
@@ -31,7 +31,7 @@ type Service struct {
 func NewService(pxyCfgs map[string]config.ProxyConf, visitorCfgs map[string]config.ProxyConf, hostPID int) (svr *Service) {
 	svr = &Service{
 		closedCh: make(chan int),
-		hostPID: hostPID,
+		hostPID:  hostPID,
 	}
 	ctl := NewControl(svr, pxyCfgs, visitorCfgs)
 	svr.ctl = ctl
